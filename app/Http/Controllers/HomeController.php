@@ -18,12 +18,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    //     $this->middleware('verified');
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('verified');
 
-    // }
+    }
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
@@ -79,7 +79,6 @@ class HomeController extends Controller
 
     public function destroy($id)
     {
-
         $post = Post::find($id);
         $post->delete();
         $img = $post->image;

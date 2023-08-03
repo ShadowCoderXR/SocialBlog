@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreign('role_id')
                     ->references('id')
                     ->on('roles')
-                    ->onDelete('set null');
+                    ->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

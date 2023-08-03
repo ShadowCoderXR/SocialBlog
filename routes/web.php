@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\http\Controllers\HomeController;
+use App\Http\Controllers\HomeController;
 use App\http\Controllers\ProfileController;
 
 /*
@@ -19,10 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 
-Route::get('/post', [App\Http\Controllers\HomeController::class, 'index'])->name('post.index');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('post.index');
 
 Route::get('/post/{slug}', [HomeController::class, 'show'])->name('post.show');
 Route::get('/post/{slug}/edit', [HomeController::class, 'edit'])->name('post.edit');
@@ -32,13 +32,13 @@ Route::delete('/post/{id}', [HomeController::class, 'destroy'])->name('post.dest
 Route::post('/post/{id}/comment', [HomeController::class, 'commentStore'])->name('comment.store');
 Route::delete('/post/{id}', [HomeController::class, 'commentDestroy'])->name('comment.destroy');
 
-Route::get("/profile/{slug}", [App\Http\Controllers\ProfileController::class, "show"])->name("profile.show");
-Route::get("/profile/{slug}/edit", [App\Http\Controllers\ProfileController::class, "edit"])->name("profile.edit");
-Route::get("/profile/{slug}/edit/password", [App\Http\Controllers\ProfileController::class, "editPassword"])->name("profile.edit.password");
-Route::put("/profile/{id}/edit/password", [App\Http\Controllers\ProfileController::class, "updatePassword"])->name("profile.update.password")->middleware(['password.confirm']);
-Route::put("/profile/{id}", [App\Http\Controllers\ProfileController::class, "update"])->name("profile.update");
-Route::get("/profile/{slug}/posts", [App\Http\Controllers\ProfileController::class, "posts"])->name("profile.posts");
-Route::delete("/profile/{id}", [App\Http\Controllers\ProfileController::class, "destroy"])->name("profile.destroy");
+Route::get("/profile/{slug}", [ProfileController::class, "show"])->name("profile.show");
+Route::get("/profile/{slug}/edit", [ProfileController::class, "edit"])->name("profile.edit");
+Route::get("/profile/{slug}/edit/password", [ProfileController::class, "editPassword"])->name("profile.edit.password");
+Route::put("/profile/{id}/edit/password", [ProfileController::class, "updatePassword"])->name("profile.update.password")->middleware(['password.confirm']);
+Route::put("/profile/{id}", [ProfileController::class, "update"])->name("profile.update");
+Route::get("/profile/{slug}/posts", [ProfileController::class, "posts"])->name("profile.posts");
+Route::delete("/profile/{id}", [ProfileController::class, "destroy"])->name("profile.destroy");
 
 
 

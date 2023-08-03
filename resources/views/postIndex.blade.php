@@ -22,7 +22,7 @@
                     <td>{{ $post->body }}</td>
                     <td><img src="{{ asset('storage/images/posts/' . $post->image) }}"></td>
                     <td>
-                        <form action="{{ route('post.destroy', $post->id) }}" method="post">
+                        <form action="{{route('profile.update.password', ['id' => $post->id])}}" method="post">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Eliminar</button>
