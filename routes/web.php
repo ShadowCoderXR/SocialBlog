@@ -28,7 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::post('/home', [HomeController::class, 'store'])->name('home.store');
 
 Route::get('/post/{slug}', [HomeController::class, 'show'])->name('post.show');
-Route::get('/post/{slug}/edit', [HomeController::class, 'edit'])->name('post.edit');
+// Route::get('/post/{slug}/edit', [HomeController::class, 'edit'])->name('post.edit');
 Route::post('/post/create', [HomeController::class, 'store'])->name('post.store');
 Route::put('/post/{id}', [HomeController::class, 'update'])->name('post.update');
 Route::delete('/post/{id}', [HomeController::class, 'destroy'])->name('post.destroy');
