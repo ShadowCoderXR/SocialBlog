@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
@@ -18,12 +19,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('verified');
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    //     $this->middleware('verified');
 
-    }
+    // }
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
@@ -45,7 +46,7 @@ class HomeController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'content' => 'required',
+            'body' => 'required',
         ]);
         $image = $request->file('image');
         $dateTime = Carbon::now();
@@ -62,8 +63,7 @@ class HomeController extends Controller
         $post->user_id = $user_id;
         $post->status = 1;
         $post->save();
-        return redirect('/post');
-
+        return redirect()->route('post.index');
     }
 
     public function update(Request $request, $id)
@@ -83,7 +83,7 @@ class HomeController extends Controller
         $post->delete();
         $img = $post->image;
         Storage::delete('public/images/posts/' . $img);
-        return redirect('/post');
+        return redirect('/postIndex');
     }
 
     public function commentStore(Request $request, $id)
@@ -99,7 +99,6 @@ class HomeController extends Controller
     public function commentsDestroy($id)
     {
         $comment = Comment::find($id);
-        $comment->user_id = Auth::user()->id;
         $comment->delete();
         return redirect()->back();
     }
