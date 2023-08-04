@@ -67,11 +67,20 @@ class HomeController extends Controller
 
     public function update(Request $request, $id)
     {
+        $image = $request->file('image');
+        $dateTime = Carbon::now();
+        $name = $dateTime->format('Ymd_His') . '.webp';
+        Image::make($image)->encode('webp', 75)->save(storage_path('app/public/images/posts/' . $name));
 
         $post = Post::find($id);
         $post->title = $request->title;
         $post->slug = str::slug($request->title);
         $post->body = $request->body;
+      
+        $img = $post->image;
+        Storage::delete('app/public/images/posts/' . $img);
+        $post->image = $name;
+
         $post->save();
         return redirect()->route('post.show', ['slug' => $post->slug]);
     }
