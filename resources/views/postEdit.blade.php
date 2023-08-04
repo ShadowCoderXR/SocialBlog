@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Editar Publicación</h1>
-    <form action="{{ route('post.update')}}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('post.update',['id'=> $post->id])}}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <label for="title">Title</label>

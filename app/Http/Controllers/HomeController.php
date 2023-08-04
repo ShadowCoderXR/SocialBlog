@@ -82,7 +82,7 @@ class HomeController extends Controller
         $post->delete();
         $img = $post->image;
         Storage::delete('public/images/posts/' . $img);
-        return redirect('/postIndex');
+        return redirect('/home');
     }
 
     public function commentStore(Request $request, $id)
