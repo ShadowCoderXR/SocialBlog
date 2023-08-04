@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Comment;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -19,12 +19,11 @@ class HomeController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    //     $this->middleware('verified');
-
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('verified');
+    }
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->get();

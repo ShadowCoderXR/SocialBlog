@@ -4,7 +4,7 @@
     <h1>Editar Publicación</h1>
     <form action="{{ route('post.update')}}" method="post" enctype="multipart/form-data">
         @csrf
-
+        @method('PUT')
         <label for="title">Title</label>
         <input type="text" name="title" id="title "value="{{ $post->title }}">
         <br>

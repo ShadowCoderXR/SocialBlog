@@ -33,9 +33,8 @@
             @endforeach
     </table>
     <h1>Crear nueva publicacion</h1>
-    <form method="POST" action="{{ route('home.store') }}">
+    <form method="POST" action="{{ route('home.store')}}" enctype="multipart/form-data">
         @csrf
-
         <label for="title">Title:</label>
         <input type="text" id="title" name="title">
         <br>
@@ -50,6 +49,5 @@
         <br>
         <br>
         <button type="submit" id="miboton">Crear Publicación</button>
-
     </form>
 @endsection
