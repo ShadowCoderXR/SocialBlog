@@ -9,7 +9,7 @@
     <img src="{{ asset('storage/images/posts/' . $post->image) }}">
 
     <h2>Nuevo Comentario</h2>
-    <form action="{{ route('comment.store', $post->id) }}" method="POST">
+    <form action="{{ route('comment.store',['id'=> $post->id])}}" method="POST">
         @csrf
         <textarea name="comment" placeholder="Comentarios"></textarea>
         <button type="submit" title="comment" id="miboton">Comentar</button>
@@ -45,7 +45,7 @@
         @method('DELETE')
         <button type="submit">Eliminar</button>
     </form>
-    
+
     <h2>Comentarios</h2>
     <ul>
         @foreach ($post->comments as $comment)
@@ -55,7 +55,7 @@
             {{ $comment->user_id }}
             <br>
             <br>
-            <form action="{{ route('comment.destroy', $comment->id) }}" method="post">
+            <form action="{{ route('comment.destroy',['id'=> $comment->id])}}" method="post">
                 @csrf
                 @method('DELETE')
                 <button type="submit">Eliminar</button>

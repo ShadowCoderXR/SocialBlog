@@ -33,7 +33,7 @@ Route::post('/post/create', [HomeController::class, 'store'])->name('post.store'
 Route::put('/post/{id}', [HomeController::class, 'update'])->name('post.update');
 Route::delete('/post/{id}', [HomeController::class, 'destroy'])->name('post.destroy');
 Route::post('/post/{id}/comment', [HomeController::class, 'commentStore'])->name('comment.store');
-
+Route::delete('/post/{id}/comment', [HomeController::class, 'commentDestroy'])->name('comment.destroy');
 
 Route::get("/profile/{slug}", [ProfileController::class, "show"])->name("profile.show");
 Route::get("/profile/{slug}/edit", [ProfileController::class, "edit"])->name("profile.edit");
