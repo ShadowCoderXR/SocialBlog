@@ -16,7 +16,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('adminIndex');
+        return view('admin/adminIndex');
     }
 
     public function users()
@@ -26,7 +26,7 @@ class AdminController extends Controller
         foreach ($users as $user) {
         $roles[$user->id] = $user->role()->get();
         }
-        return view('adminIndex', compact('users', 'roles'));
+        return view('admin/adminIndex', compact('users', 'roles'));
     }
 
     // public function update(Request $request, $id)
@@ -42,7 +42,7 @@ class AdminController extends Controller
         $user = User::findOrFail($user_id);
         $posts = $user->posts;
 
-        return view('admin.show', compact('user', 'posts'));
+        return view('admin/admin.show', compact('user', 'posts'));
     }
 
     public function destroy($id)

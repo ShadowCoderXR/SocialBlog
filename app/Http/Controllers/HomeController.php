@@ -27,19 +27,19 @@ class HomeController extends Controller
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
-        return view('postIndex', compact('posts'));
+        return view('posts/postIndex', compact('posts'));
     }
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->first();
         $comments = $post->comments()->with('user')->get();
-        return view('postsShow', compact('post', 'comments'));
+        return view('posts/postsShow', compact('post', 'comments'));
     }
 
     public function edit($slug)
     {
         $post = Post::where('slug', $slug)->first();
-        return view('postEdit', compact('post'));
+        return view('posts/postEdit', compact('post'));
     }
     public function store(Request $request)
     {
@@ -76,7 +76,7 @@ class HomeController extends Controller
         $post->title = $request->title;
         $post->slug = str::slug($request->title);
         $post->body = $request->body;
-      
+        
         $img = $post->image;
         Storage::delete('app/public/images/posts/' . $img);
         $post->image = $name;

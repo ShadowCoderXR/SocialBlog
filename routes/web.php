@@ -39,7 +39,7 @@ Route::delete('/post/{id}/comment', [HomeController::class, 'commentDestroy'])->
 Route::get("/profile/{slug}", [ProfileController::class, "show"])->name("profile.show");
 Route::get("/profile/{slug}/edit", [ProfileController::class, "edit"])->name("profile.edit");
 Route::get("/profile/{slug}/edit/password", [ProfileController::class, "editPassword"])->name("profile.edit.password");
-Route::put("/profile/{id}/edit/password", [ProfileController::class, "updatePassword"])->name("profile.update.password")->middleware(['password.confirm']);
+Route::post("/profile/edit/password", [ProfileController::class, "updatePassword"])->name("profile.update.password");
 Route::put("/profile/{id}", [ProfileController::class, "update"])->name("profile.update");
 Route::get("/profile/{slug}/posts", [ProfileController::class, "posts"])->name("profile.posts");
 Route::delete("/profile/{id}", [ProfileController::class, "destroy"])->name("profile.destroy");

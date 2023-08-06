@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,16 +9,26 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{route('profile.update.password', ['id' => $user->id])}}" method="POST" enctype="multipart/form-data">
+<h1>Cambiar Contraseña</h1>
+    @if ($errors->any())
+        <div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <form method="POST" action="{{ route('profile.update.password') }}">
         @csrf
-        @method('PUT')
-        <label for="old_password">Contraseña Antigua</label>
-        <input type="password" name="old_password" id="old_password" required>
-        <label for="new_password">Contraseña Nueva</label>
-        <input type="password" name="new_password" id="new_password" required>
-        <label for="password">Confirmar contraseña</label>
-        <input type="new_password_confirmation" name="new_password_confirmation" id="new_password_confirmation" required>
-        <button type="submit">Enviar</button>
+        <label for="old_password">Contraseña Antigua:</label>
+        <input type="password" name="old_password" required><br>
+        <label for="password">Nueva Contraseña:</label>
+        <input type="password" name="password" required><br>
+        <label for="password_confirmation">Confirmar Nueva Contraseña:</label>
+        <input type="password" name="password_confirmation" required><br>
+        <button type="submit">Cambiar Contraseña</button>
     </form>
 </body>
 </html>
+@endsection

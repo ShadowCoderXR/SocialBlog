@@ -5,7 +5,7 @@
     <h1>{{ $post->title }}</h1>
     <p>{{ $post->body }}</p>
     <p>{{ $post->slug }}</p>
-    <p>Publicado por: {{ $post->user_id }}</p>
+    <p>Publicado por: {{ $post->user->name}}</p>
     <img src="{{ asset('storage/images/posts/' . $post->image) }}">
 
     <h2>Nuevo Comentario</h2>

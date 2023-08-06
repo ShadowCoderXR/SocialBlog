@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class ProfileController extends Controller
@@ -52,17 +54,24 @@ class ProfileController extends Controller
         return view('profile/password', compact('user'));
     }
 
-    public function updatePassword(Request $request, $id)
+    public function updatePassword(Request $request)
     {
         $request->validate([
-            'old_password' => ['required', 'password'],
-            'new_password' => ['required', 'string', 'min:8', 'confirmed']
+            'old_password' => 'required',
+            'password' => 'required|min:8|confirmed',
         ]);
 
-        $user = User::find($id);
-        $user->password = bcrypt($request->new_password);
-        $user->save();
-        return Redirect::route('profile.show', ['slug' => $user->slug]);
+        $user = Auth::user();
+
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+
+            return Redirect::route(route('profile.show', ['slug'=>Auth::user()->slug]))->with('success', 'Contraseña cambiada exitosamente.');
+        } else {
+            return back()->withErrors(['old_password' => 'La contraseña antigua no es válida.'])->withInput();
+        }
     }
 
     public function posts($slug)

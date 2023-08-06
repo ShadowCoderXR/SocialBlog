@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,5 +45,16 @@
     </ul>
     <h1>Editar</h1>
     <a href="{{route('profile.edit', ['slug' => $user->slug])}}">Editar perfil</a>
+    <h1>Publicaciones</h1>
+    <a href="{{route('profile.posts', ['slug' => $user->slug])}}">Ver mis publicaciones</a>
+    <h1>Eliminar</h1>
+    <form action="{{ route('profile.destroy', ['id' => $user->id]) }}" method="post">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Eliminar</button>
+    </form>
+    <h1>Cambiar Contraseña</h1>
+    <a href="{{route('profile.edit.password', ['slug' => $user->slug])}}">Cambiar contraseña</a>
 </body>
 </html>
+@endsection

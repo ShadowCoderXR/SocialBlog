@@ -23,7 +23,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->slug }}</td>
                     <td>{{ $user->email }}</td>
-                    <td><img src="{{ asset('storage/images/posts/' . $user->image) }}"></td>
+                    <td><img src="{{ asset('storage/images/profiles/' . $user->image) }}"></td>
                     <td>{{ $user->role_id }}</td>
                     <td>{{ $user->description }}</td>
                     <td>{{ $user->status }}</td>
@@ -34,7 +34,7 @@
                             <button type="submit">Eliminar</button>
                         </form>
 
-                        <a href="{{route('admin.show', $user->id)}}">Ver publicacion</a>
+                        <a href="{{route('profile.show', ['slug'=>$user->slug])}}">Ver publicacion</a>
                     </td>
                 </tr>
             @endforeach
