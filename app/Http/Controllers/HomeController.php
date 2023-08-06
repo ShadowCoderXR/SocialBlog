@@ -24,90 +24,150 @@ class HomeController extends Controller
         $this->middleware('auth');
         $this->middleware('verified');
     }
-    public function index()
-    {
-        $posts = Post::orderBy('created_at', 'desc')->get();
-        return view('posts/postIndex', compact('posts'));
-    }
-    public function show($slug)
-    {
-        $post = Post::where('slug', $slug)->first();
-        $comments = $post->comments()->with('user')->get();
-        return view('posts/postsShow', compact('post', 'comments'));
+
+    public function uniqueSlug($title){
+        $slug = Str::slug($title);
+        $baseSlug = $slug;
+        $counter = 1;
+
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter++;
+        }
+
+        return $slug;
     }
 
-    public function edit($slug)
+    public function index()
     {
-        $post = Post::where('slug', $slug)->first();
-        return view('posts/postEdit', compact('post'));
+        $posts = Post::orderBy('created_at', 'desc')
+            ->with('user')
+            ->where('status', 1)
+            ->paginate(10);
+        return view('posts/postIndex', compact('posts'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required',
             'body' => 'required',
+            'image' => 'nullable|image',
+        ], [
+            'title.required' => 'El campo título es obligatorio.',
+            'body.required' => 'El campo cuerpo es obligatorio.',
+            'image.image' => 'El archivo debe ser una imagen.',
         ]);
-        $image = $request->file('image');
-        $dateTime = Carbon::now();
-        $name = $dateTime->format('Ymd_His') . '.webp';
-        Image::make($image)->encode('webp', 75)->save(storage_path('app/public/images/posts/' . $name));
-        $post = new Post();
-        $post->title = $request->title;
-        $user_id = Auth::id();
-        $slug = Str::slug($request->title);
-        $uniqueSlug = $user_id . '-' . $slug . '-' . uniqid();
-        $post->slug = $uniqueSlug;
-        $post->image = $name;
-        $post->body = $request->body;
-        $post->user_id = $user_id;
-        $post->status = 1;
+
+        $post = new Post([
+            'title' => $request->title,
+            'slug' => $this->uniqueSlug($request->title),
+            'body' => $request->body,
+            'user_id' => Auth::id(),
+            'status' => 1,
+        ]);
+
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $image = $request->file('image');
+            $dateTime = Carbon::now();
+            $name = $dateTime->format('Ymd_His') . '.webp';
+            Image::make($image)->encode('webp', 75)->save(storage_path('app/public/images/posts/' . $name));
+            
+            $post->image = $name;
+        }
+
         $post->save();
+
         return redirect()->route('post.index');
+    }
+
+    public function show($slug)
+    {
+        $post = Post::with('comments.user')->where('slug', $slug)->firstOrFail();
+        return view('posts/postsShow', compact('post'));
     }
 
     public function update(Request $request, $id)
     {
-        $image = $request->file('image');
-        $dateTime = Carbon::now();
-        $name = $dateTime->format('Ymd_His') . '.webp';
-        Image::make($image)->encode('webp', 75)->save(storage_path('app/public/images/posts/' . $name));
+        $request->validate([
+            'image' => 'nullable|image',
+        ], [
+            'image.image' => 'El archivo debe ser una imagen.',
+        ]);
 
         $post = Post::find($id);
-        $post->title = $request->title;
-        $post->slug = str::slug($request->title);
-        $post->body = $request->body;
-        
-        $img = $post->image;
-        Storage::delete('app/public/images/posts/' . $img);
-        $post->image = $name;
+
+        if($request->title != null){
+            $post->title = $request->title;
+            $post->slug = $this->uniqueSlug($request->title);
+        }
+
+        if($request->body != null){
+            $post->body = $request->body;
+        }
+
+        if($request->hasFile('image') && $request->file('image')->isValid()){
+            $img = $post->image;
+            Storage::delete('public/images/posts/' . $img);
+            
+            $image = $request->file('image');
+            $dateTime = Carbon::now();
+            $name = $dateTime->format('Ymd_His') . '.webp';
+            Image::make($image)->encode('webp', 75)->save(storage_path('app/public/images/posts/' . $name));
+            $post->image = $name;
+        }
 
         $post->save();
+
         return redirect()->route('post.show', ['slug' => $post->slug]);
     }
 
     public function destroy($id)
     {
         $post = Post::find($id);
-        $post->delete();
-        $img = $post->image;
-        Storage::delete('public/images/posts/' . $img);
+        $post->status = 0;
+        $post->save();
         return redirect('/home');
     }
 
     public function commentStore(Request $request, $id)
     {
-        $comment = new Comment();
-        $comment->user_id = Auth::user()->id;
-        $comment->post_id = $id;
-        $comment->content = $request->comment;
+        $request->validate([
+            'content' => 'required',
+        ], [
+            'content.required' => 'El campo contenido es obligatorio.',
+        ]);
+
+        $comment = new Comment([
+            'user_id' => Auth::user()->id,
+            'post_id' => $id,
+            'content' => $request->content,
+        ]);
         $comment->save();
+
+        return redirect()->back();
+    }
+
+    public function commentUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'content' => 'required',
+        ], [
+            'content.required' => 'El campo contenido es obligatorio.',
+        ]);
+
+        $comment = Comment::find($id);
+        $comment->content = $request->content;
+        $comment->save();
+
         return redirect()->back();
     }
 
     public function commentsDestroy($id)
     {
         $comment = Comment::find($id);
-        $comment->delete();
+        $comment->status = 0;
+        $comment->save();
         return redirect()->back();
     }
 }
