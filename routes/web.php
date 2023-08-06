@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
 
 /*
@@ -44,14 +45,16 @@ Route::get("/profile/{slug}/posts", [ProfileController::class, "posts"])->name("
 Route::delete("/profile/{id}", [ProfileController::class, "destroy"])->name("profile.destroy");
 
 
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+Route::get('/admin/{id}/posts', [AdminController::class, 'show'])->name('admin.show');
+Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
 // RUTAS DEL ADMINISTRADOR || RUTAS EN LAS QUE TIENE ACCESO ADMI
 Route::group(['middleware' => 'admin'], function () {
     // Route::get('/post/{slug}/edit', [HomeController::class, 'edit'])->name('post.edit');
     // Route::get("/profile/{slug}/edit", [ProfileController::class, "edit"])->name("profile.edit");
 
-
-    // Route::get('/admin/dashboard', 'HomeController@dashboard')->name('post.edit'); 
 });
 
 // RUTAS NEGADAS PARA USUARIOS SIN ADMI 
