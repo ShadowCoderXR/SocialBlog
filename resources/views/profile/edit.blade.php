@@ -19,6 +19,9 @@
         <input type="text" name="description" id="description" value="{{ $user->description }}"><br>
         <label for="image">Imagen</label>
         <input type="file" name="image" id="image">
+        @error('image')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
         <button type="submit">Enviar</button>
     </form>
 <h1>Eliminar</h1>

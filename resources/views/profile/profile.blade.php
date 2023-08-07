@@ -10,7 +10,7 @@
 </head>
 <body>
     <h1>Perfil</h1>
-    <img src="{{ asset('storage/images/profiles/' . $user->image) }}" class="card-img-top" class="img-publicacion" alt="...">
+    <img src="{{ asset('storage/images/profiles/' . $user->image) }}" class="img-publicacion" alt="..." width="100">
     <ul>
         <li>
             Nombre: {{$user->name}}

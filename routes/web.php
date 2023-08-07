@@ -61,3 +61,7 @@ Route::group(['middleware' => 'admin'], function () {
 Route::get('/acceso-no-autorizado', function () {
     return "Acceso no autorizado. Debes ser un administrador para acceder.";
 })->name('acceso-no-autorizado');
+
+Route::get('/status', function () {
+    return "Tu cuenta esta desactivada. Contacta con el administrador.";
+})->name('status');

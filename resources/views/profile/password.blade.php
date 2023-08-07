@@ -9,26 +9,44 @@
     <title>Document</title>
 </head>
 <body>
-<h1>Cambiar Contraseña</h1>
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <form method="POST" action="{{ route('profile.update.password') }}">
-        @csrf
-        <label for="old_password">Contraseña Antigua:</label>
-        <input type="password" name="old_password" required><br>
-        <label for="password">Nueva Contraseña:</label>
-        <input type="password" name="password" required><br>
-        <label for="password_confirmation">Confirmar Nueva Contraseña:</label>
-        <input type="password" name="password_confirmation" required><br>
-        <button type="submit">Cambiar Contraseña</button>
-    </form>
+<div>
+        <h2>Cambiar contraseña</h2>
+
+        @if (session('success'))
+            <div>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('profile.update.password') }}">
+            @csrf
+
+            <div>
+                <label for="old_password">Contraseña actual</label>
+                <input id="old_password" type="password" name="old_password" required autofocus>
+                @error('old_password')
+                    <div>{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label for="password">Nueva contraseña</label>
+                <input id="password" type="password" name="password" required>
+                @error('password')
+                    <div>{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label for="password_confirmation">Confirmar nueva contraseña</label>
+                <input id="password_confirmation" type="password" name="password_confirmation" required>
+            </div>
+
+            <div>
+                <button type="submit">Cambiar contraseña</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
 @endsection
