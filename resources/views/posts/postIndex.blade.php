@@ -120,7 +120,7 @@
                     $colCount++;
                 @endphp
 
-                @if ($colCount == 5) 
+                @if ($colCount == $halfItemCount) 
                 </div>
                 @php
                     $colCount = 0;
@@ -135,7 +135,6 @@
         </div>
     </div>
 </section><!-- End Events Section -->
-
 
 {{ $posts->links() }}
 

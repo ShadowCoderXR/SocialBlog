@@ -35,12 +35,21 @@ class HomeController extends Controller
 
     public function index()
     {
+        $perPage = 10; // Cantidad de elementos por página
         $posts = Post::orderBy('created_at', 'desc')
             ->with('user')
             ->where('status', 1)
-            ->paginate(10);
-        return view('posts/postIndex', compact('posts'));
+            ->paginate($perPage);
+    
+        $ItemCount = $posts->lastPage() === $posts->currentPage()
+            ? $posts->total() % $perPage
+            : $perPage;
+
+            $halfItemCount = ceil($ItemCount / 2);
+    
+        return view('posts/postIndex', compact('posts', 'halfItemCount'));
     }
+    
 
     public function store(Request $request)
     {
