@@ -74,8 +74,8 @@ class ProfileController extends Controller
         $user->status = 0;
         $user->save();
 
-        $img = $user->image;
-        Storage::delete('public/images/profiles/' . $img);
+        // $img = $user->image;
+        // Storage::delete('public/images/profiles/' . $img);
         return redirect("/home");
     }
 

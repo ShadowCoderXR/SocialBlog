@@ -19,7 +19,12 @@
     <h2>Nuevo Comentario</h2>
     <form action="{{ route('comment.store',['id'=> $post->id])}}" method="POST">
         @csrf
-        <textarea name="comment" placeholder="Comentarios"></textarea>
+        <textarea name="content" placeholder="Comentarios"></textarea>
+        @error('comment')
+            <br>
+            <small>*{{ $message }}</small>
+            <br>
+        @enderror
         <button type="submit" title="comment" id="miboton">Comentar</button>
     </form>
     <h2>Comentarios</h2>
@@ -28,46 +33,50 @@
         <li>
             {{ $comment->content }}
             <br>
-            {{ $comment->user_id }}
+            {{ $comment->user->name }}
             <br>
             <br>
-            <form action="{{ route('comment.destroy',['id'=> $comment->id])}}" method="post">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Eliminar</button>
-            </form>
+            @if (Auth::user()->id == $comment->user_id)
+                <form action="{{ route('comment.destroy',['id'=> $comment->id])}}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Eliminar</button>
+                </form>
+            @endif
         </li>
         @endforeach
     </ul>
 </div>
-<div>
-    <hr>
-    <h1>Editar Publicación</h1>
-    <form action="{{ route('post.update',['id'=> $post->id])}}" method="post" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        <label for="title">Title</label>
-        <input type="text" name="title" id="title " value="{{ $post->title }}">
-        <br>
-        <br>
-        <label for="body">Body</label>
-        <input type="text" name="body" id="body" value="{{ $post->body }}">
-        <br>
-        <br>
-        <label for="image">Image</label>
-        <input type="file" name="image" id="image">
-        <br>
-        <br>
-        <button type="submit">Editar</button>
-    </form>
-</div>
-<div>
-    <hr>
-    <h1>Eliminar publicación</h1>
-    <form action="{{ route('post.destroy', ['id' => $post->id]) }}" method="post">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Eliminar</button>
-    </form>
-</div>
+@if (Auth::user()->id == $post->user_id)
+    <div>
+        <hr>
+        <h1>Editar Publicación</h1>
+        <form action="{{ route('post.update',['id'=> $post->id])}}" method="post" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title " value="{{ $post->title }}">
+            <br>
+            <br>
+            <label for="body">Body</label>
+            <input type="text" name="body" id="body" value="{{ $post->body }}">
+            <br>
+            <br>
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image">
+            <br>
+            <br>
+            <button type="submit">Editar</button>
+        </form>
+    </div>
+    <div>
+        <hr>
+        <h1>Eliminar publicación</h1>
+        <form action="{{ route('post.destroy', ['id' => $post->id]) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Eliminar</button>
+        </form>
+    </div>
+@endif
 @endsection

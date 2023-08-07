@@ -79,7 +79,12 @@ class HomeController extends Controller
 
     public function show($slug)
     {
-        $post = Post::with('comments.user')->where('slug', $slug)->firstOrFail();
+        $post = Post::with(['comments' => function ($query) {
+            $query->where('status', 1);
+        }, 'comments.user'])
+            ->where('slug', $slug)
+            ->where('status', 1)
+            ->firstOrFail();
         return view('posts/postsShow', compact('post'));
     }
 

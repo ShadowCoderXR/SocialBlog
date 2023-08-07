@@ -48,18 +48,14 @@ Route::post("/profile/edit/password", [ProfileController::class, "updatePassword
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
-Route::put('/admin/users/{id}', [AdminController::class, 'update'])->name('admin.disable.user');
-Route::delete('/admin/users/{id}', [AdminController::class, 'destroy'])->name('admin.destroy.user');
-Route::get('/admin/posts/{id}', [AdminController::class, 'show'])->name('admin.posts');
-Route::put('/admin/posts/{id}', [AdminController::class, 'update'])->name('admin.disable.user');
-Route::delete('/admin/posts/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
-
-// RUTAS DEL ADMINISTRADOR || RUTAS EN LAS QUE TIENE ACCESO ADMI
-Route::group(['middleware' => 'admin'], function () {
-    // Route::get('/post/{slug}/edit', [HomeController::class, 'edit'])->name('post.edit');
-    // Route::get("/profile/{slug}/edit", [ProfileController::class, "edit"])->name("profile.edit");
-
-});
+Route::put('/admin/users/{id}', [AdminController::class, 'disableUser'])->name('admin.disable.user');
+Route::delete('/admin/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.destroy.user');
+Route::get('/admin/posts', [AdminController::class, 'posts'])->name('admin.posts');
+Route::put('/admin/posts/{id}', [AdminController::class, 'disablePosts'])->name('admin.disable.posts');
+Route::delete('/admin/posts/{id}', [AdminController::class, 'destroyPosts'])->name('admin.destroy.posts');
+Route::get('/admin/posts/{id}/comments', [AdminController::class, 'comments'])->name('admin.comments');
+Route::put('/admin/comment/{id}', [AdminController::class, 'disableComments'])->name('admin.disable.comments');
+Route::delete('/admin/comment/{id}', [AdminController::class, 'destroyComments'])->name('admin.destroy.comments');
 
 // RUTAS NEGADAS PARA USUARIOS SIN ADMI 
 Route::get('/acceso-no-autorizado', function () {
