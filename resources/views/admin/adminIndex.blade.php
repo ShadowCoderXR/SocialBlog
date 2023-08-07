@@ -13,6 +13,8 @@
                 <th>Role</th>
                 <th>Description</th>
                 <th>Status</th>
+                <th>Deshabilitar</th>
+                <th>Perfil</th>
                 <th>Eliminar</th>
             </tr>
         </thead>
@@ -23,18 +25,24 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->slug }}</td>
                     <td>{{ $user->email }}</td>
-                    <td><img src="{{ asset('storage/images/profiles/' . $user->image) }}"></td>
-                    <td>{{ $user->role_id }}</td>
+                    <td><img src="{{ asset('storage/images/profiles/' . $user->image) }}" width="100"></td>
+                    <td>{{ $user->role->name }}</td>
                     <td>{{ $user->description }}</td>
                     <td>{{ $user->status }}</td>
+                    <td>
+                        <form action="{{ route('profile.destroy', ['id' => $user->id]) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                    <td><a href="{{route('profile.show', ['slug'=>$user->slug])}}">Ver perfil</a></td>
                     <td>
                         <form action="{{ route('admin.destroy', ['id' => $user->id]) }}" method="post">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Eliminar</button>
                         </form>
-
-                        <a href="{{route('profile.show', ['slug'=>$user->slug])}}">Ver publicacion</a>
                     </td>
                 </tr>
             @endforeach

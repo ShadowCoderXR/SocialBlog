@@ -79,6 +79,12 @@ class ProfileController extends Controller
         return redirect("/home");
     }
 
+    public function posts($slug)
+    {
+        $user = User::with('posts')->where('slug', $slug)->firstOrFail();
+        return view('profile/posts', compact('user'));
+    }
+
     public function editPassword($slug)
     {
         return view('profile/password');
@@ -107,11 +113,5 @@ class ProfileController extends Controller
         } else {
             return back()->withErrors(['old_password' => 'La contraseña antigua no es válida.'])->withInput();
         }
-    }
-
-    public function posts($slug)
-    {
-        $user = User::with('posts')->where('slug', $slug)->firstOrFail();
-        return view('profile/posts', compact('user'));
     }
 }

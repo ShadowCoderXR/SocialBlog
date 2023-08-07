@@ -7,26 +7,21 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
-    //
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('verified');
     }
 
-    public function index()
-    {
-        return view('admin/adminIndex');
-    }
+    // public function index()
+    // {
+    //     return view('admin/adminIndex');
+    // }
 
     public function users()
     {
-        $users = User::all();
-        $roles = [];
-        foreach ($users as $user) {
-        $roles[$user->id] = $user->role()->get();
-        }
-        return view('admin/adminIndex', compact('users', 'roles'));
+        $users = User::with('role')->get();
+        return view('admin/adminIndex', compact('users'));
     }
 
     // public function update(Request $request, $id)

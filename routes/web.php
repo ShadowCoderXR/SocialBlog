@@ -26,29 +26,33 @@ Auth::routes(['verify' => true]);
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('post.index');
-Route::post('/home', [HomeController::class, 'store'])->name('home.store');
 
+Route::post('/post', [HomeController::class, 'store'])->name('home.store');
 Route::get('/post/{slug}', [HomeController::class, 'show'])->name('post.show');
 Route::put('/post/{id}', [HomeController::class, 'update'])->name('post.update');
 Route::delete('/post/{id}', [HomeController::class, 'destroy'])->name('post.destroy');
 
-Route::post('/post/{id}/comment', [HomeController::class, 'commentStore'])->name('comment.store');
-Route::delete('/post/{id}/comment', [HomeController::class, 'commentDestroy'])->name('comment.destroy');
+Route::post('/post/comment/{id}', [HomeController::class, 'commentStore'])->name('comment.store');
+Route::delete('/post/comment/{id}', [HomeController::class, 'commentDestroy'])->name('comment.destroy');
 
 
 Route::get("/profile/{slug}", [ProfileController::class, "show"])->name("profile.show");
 Route::get("/profile/{slug}/edit", [ProfileController::class, "edit"])->name("profile.edit");
+Route::put("/profile/{id}", [ProfileController::class, "update"])->name("profile.update");
+Route::delete("/profile/{id}", [ProfileController::class, "destroy"])->name("profile.destroy");
+Route::get("/profile/posts/{slug}", [ProfileController::class, "posts"])->name("profile.posts");
+
 Route::get("/profile/{slug}/edit/password", [ProfileController::class, "editPassword"])->name("profile.edit.password");
 Route::post("/profile/edit/password", [ProfileController::class, "updatePassword"])->name("profile.update.password");
-Route::put("/profile/{id}", [ProfileController::class, "update"])->name("profile.update");
-Route::get("/profile/{slug}/posts", [ProfileController::class, "posts"])->name("profile.posts");
-Route::delete("/profile/{id}", [ProfileController::class, "destroy"])->name("profile.destroy");
 
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
-Route::get('/admin/{id}/posts', [AdminController::class, 'show'])->name('admin.show');
-Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+Route::put('/admin/users/{id}', [AdminController::class, 'update'])->name('admin.disable.user');
+Route::delete('/admin/users/{id}', [AdminController::class, 'destroy'])->name('admin.destroy.user');
+Route::get('/admin/posts/{id}', [AdminController::class, 'show'])->name('admin.posts');
+Route::put('/admin/posts/{id}', [AdminController::class, 'update'])->name('admin.disable.user');
+Route::delete('/admin/posts/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
 // RUTAS DEL ADMINISTRADOR || RUTAS EN LAS QUE TIENE ACCESO ADMI
 Route::group(['middleware' => 'admin'], function () {
