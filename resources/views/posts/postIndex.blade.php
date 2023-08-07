@@ -34,7 +34,7 @@
 <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
     <h1>Social Blog</h1>
     <h2>Te damos la bienvenida comparte tus publicaciones</h2>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Crear publicación
     </button>
 </div>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <button type="submit" class="btn btn-success">Crear</button>
                 </div>
             </form>
         </div>
@@ -93,18 +93,18 @@
         <div class="row"> <!-- Eliminamos la clase row-cols-2 para que no divida automáticamente en columnas -->
 
             @php
-                $colCount = 0;
+            $colCount = 0;
             @endphp
 
             @foreach ($posts as $post)
-                @if ($colCount == 0)
-                <div class="col-md-6 custom-column">
+            @if ($colCount == 0)
+            <div class="col-md-6 custom-column">
                 @endif
 
                 <div class="card mb-4">
                     <div class="card-img">
                         @if ($post->image != null)
-                        <img src="{{ asset('storage/images/posts/' . $post->image) }}" width="700" class="img-fluid">
+                        <a href="{{route('post.show', $post->slug)}}"><img src="{{ asset('storage/images/posts/' . $post->image) }}" width="700" class="img-fluid"></a>
                         @else
                         Sin Imagen
                         @endif
@@ -117,22 +117,22 @@
                 </div>
 
                 @php
-                    $colCount++;
+                $colCount++;
                 @endphp
 
-                @if ($colCount == $halfItemCount) 
-                </div>
-                @php
-                    $colCount = 0;
-                @endphp
-                @endif
+                @if ($colCount == $halfItemCount)
+            </div>
+            @php
+            $colCount = 0;
+            @endphp
+            @endif
             @endforeach
 
             @if ($colCount != 0)
-            </div>
-            @endif
-
         </div>
+        @endif
+
+    </div>
     </div>
 </section><!-- End Events Section -->
 
