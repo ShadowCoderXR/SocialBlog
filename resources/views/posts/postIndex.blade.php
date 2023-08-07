@@ -9,8 +9,7 @@
             <th>Title</th>
             <th>Content</th>
             <th>Image</th>
-            <th>publicació</th>
-            <th>Eliminar</th>
+            <th>publicación</th>
         </tr>
     </thead>
     <tbody>
@@ -28,13 +27,6 @@
             </td>
             <td>
                 <a href="{{route('post.show', $post->slug)}}">Ver publicación</a>
-            </td>
-            <td>
-                <form action="{{ route('post.destroy', ['id' => $post->id]) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Eliminar</button>
-                </form>
             </td>
         </tr>
         @endforeach

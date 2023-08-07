@@ -64,7 +64,7 @@
                                         {{ __('Profile') }}
                                     </a>
 
-                                    @if(Auth::user()->role_id == 1)
+                                    @if(Auth::user()->role_id == 2)
                                         <a class="dropdown-item" href="{{ route('admin.index') }}">
                                             {{ __('Admin') }}
                                         </a>

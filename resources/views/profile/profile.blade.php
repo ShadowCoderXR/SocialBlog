@@ -10,51 +10,45 @@
 </head>
 <body>
     <h1>Perfil</h1>
-    <img src="{{ asset('storage/images/profiles/' . $user->image) }}" class="img-publicacion" alt="..." width="100">
+    @if($user->image != null)
+        <img src="{{ asset('storage/images/profiles/' . $user->image) }}" class="img-publicacion" alt="..." width="100">
+    @else
+        sin imagen    
+    @endif
     <ul>
         <li>
             Nombre: {{$user->name}}
         </li>
         <li>
-            Slug: {{$user->slug}}
-        </li>
-        <li>
             Email: {{$user->email}}
         </li>
         <li>
-            Password: {{$user->password}}
-        </li>
-        <li>
-            Ruta de imagen: {{$user->image}}
-        </li>
-        <li>
-            Description: {{$user->description}}
-        </li>
-        <li>
-            Status: 
+            Description: 
+            @if($user->description == null)
+                Sin descripción
+            @endif
+            {{$user->description}}
             
-        @if($user->status == 1)
-            Activo
-        @else
-            Inactivo
-        @endif
         </li>
         <li>
             Created at: {{$user->created_at}}
         </li>
     </ul>
-    <h1>Editar</h1>
-    <a href="{{route('profile.edit', ['slug' => $user->slug])}}">Editar perfil</a>
-    <h1>Publicaciones</h1>
-    <a href="{{route('profile.posts', ['slug' => $user->slug])}}">Ver mis publicaciones</a>
-    <h1>Eliminar</h1>
-    <form action="{{ route('profile.destroy', ['id' => $user->id]) }}" method="post">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Eliminar</button>
-    </form>
-    <h1>Cambiar Contraseña</h1>
-    <a href="{{route('profile.edit.password', ['slug' => $user->slug])}}">Cambiar contraseña</a>
-</body>
+    @if(Auth::id() == $user->id)
+        <h1>Editar</h1>
+        <a href="{{route('profile.edit', ['slug' => $user->slug])}}">Editar perfil</a>
+        <h1>Publicaciones</h1>
+        <a href="{{route('profile.posts', ['slug' => $user->slug])}}">Ver mis publicaciones</a>
+        <h1>Eliminar</h1>
+        <form action="{{ route('profile.destroy', ['id' => $user->id]) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Eliminar</button>
+        </form>
+
+        <h1>Cambiar Contraseña</h1>
+        <a href="{{route('profile.edit.password', ['slug' => $user->slug])}}">Cambiar contraseña</a>
+    @endif
+    </body>
 </html>
 @endsection

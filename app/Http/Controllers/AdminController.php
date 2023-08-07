@@ -54,7 +54,7 @@ class AdminController extends Controller
 
     public function posts()
     {
-        $posts = Post::with('comments')->get();
+        $posts = Post::with('comments')->orderBy('created_at', 'desc')->get()->paginate(10);
         return view('admin/posts', compact('posts'));
     }
 
@@ -84,7 +84,7 @@ class AdminController extends Controller
 
     public function comments($id)
     {
-        $comments = Comment::where('post_id', $id)->get();
+        $comments = Comment::where('post_id', $id)->orderBy('created_at', 'desc')->get()->paginate(10);
         return view('admin/comments', compact('comments'));
     }
 

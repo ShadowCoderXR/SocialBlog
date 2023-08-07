@@ -80,7 +80,7 @@ class HomeController extends Controller
     public function show($slug)
     {
         $post = Post::with(['comments' => function ($query) {
-            $query->where('status', 1);
+            $query->where('status', 1)->orderBy('created_at', 'desc');
         }, 'comments.user'])
             ->where('slug', $slug)
             ->where('status', 1)
@@ -164,7 +164,7 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function commentsDestroy($id)
+    public function commentDestroy($id)
     {
         $comment = Comment::find($id);
         $comment->status = 0;

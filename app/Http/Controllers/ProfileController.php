@@ -23,7 +23,7 @@ class ProfileController extends Controller
     
     public function show($slug)
     {
-        $user = User::where('slug', $slug)->firstOrFail();
+        $user = User::where('slug', $slug)->where('status', 1)->firstOrFail();
         return view('profile/profile', compact('user'));
     }
 
@@ -81,7 +81,9 @@ class ProfileController extends Controller
 
     public function posts($slug)
     {
-        $user = User::with('posts')->where('slug', $slug)->firstOrFail();
+        $user = User::with(['posts'=> function ($query) {
+            $query->where('status', 1)->orderBy('created_at', 'desc')->paginate(10);
+        }])->where('slug', $slug)->firstOrFail();
         return view('profile/posts', compact('user'));
     }
 
