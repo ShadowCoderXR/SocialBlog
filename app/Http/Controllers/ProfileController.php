@@ -111,7 +111,7 @@ class ProfileController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            return Redirect::route(route('profile.show', ['slug'=>Auth::user()->slug]))->with('success', 'Contraseña cambiada exitosamente.');
+            return redirect()->route('profile.show', ['slug' => Auth::user()->slug])->with('success', 'Contraseña cambiada exitosamente.');
         } else {
             return back()->withErrors(['old_password' => 'La contraseña antigua no es válida.'])->withInput();
         }
