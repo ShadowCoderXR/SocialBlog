@@ -90,15 +90,21 @@
 
 <section id="events" class="events">
     <div class="container" data-aos="fade-up">
+        <div class="row"> <!-- Eliminamos la clase row-cols-2 para que no divida automáticamente en columnas -->
 
-        <div class="row">
+            @php
+                $colCount = 0;
+            @endphp
+
             @foreach ($posts as $post)
-            <div class="col-md-6 d-flex align-items-stretch">
-                <div class="card w-max">
+                @if ($colCount == 0)
+                <div class="col-md-6 custom-column">
+                @endif
 
+                <div class="card mb-4">
                     <div class="card-img">
                         @if ($post->image != null)
-                        <img src="{{ asset('storage/images/posts/' . $post->image) }}" width="700">
+                        <img src="{{ asset('storage/images/posts/' . $post->image) }}" width="700" class="img-fluid">
                         @else
                         Sin Imagen
                         @endif
@@ -108,16 +114,28 @@
                         <p class="fst-italic text-center">{{ $post->created_at }}</p>
                         <p class="card-text">{{ $post->body }}</p>
                     </div>
-
                 </div>
-            </div>
 
+                @php
+                    $colCount++;
+                @endphp
+
+                @if ($colCount == 5) 
+                </div>
+                @php
+                    $colCount = 0;
+                @endphp
+                @endif
             @endforeach
 
-        </div>
+            @if ($colCount != 0)
+            </div>
+            @endif
 
+        </div>
     </div>
 </section><!-- End Events Section -->
+
 
 {{ $posts->links() }}
 
