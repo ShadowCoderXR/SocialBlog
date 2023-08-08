@@ -66,14 +66,26 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Titulo:</label>
-                        <input type="text" class="form-control" id="recipient-name" value="{{ $post->title }}">
+                        <label for="title" class="col-form-label">Titulo:</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ $post->title }}">
+                        @error('title')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Contenido:</label>
-                        <textarea class="form-control" id="message-text" value="{{ $post->body }}"></textarea>
+                        <label for="body" class="col-form-label">Contenido:</label>
+                        <textarea class="form-control" id="body" name="body" value="{{ $post->body }}">{{ $post->body }}</textarea>
+                        @error('body')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
-
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Imagen:</label>
+                        <input type="file" class="form-control" id="image" name="image">
+                        @error('image')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -131,7 +143,7 @@
 
                     <div class="d-flex align-items-center">
                         <div class="col mt-3">
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <textarea class="form-control" id="content" name="content"></textarea>
                         </div>
                     </div>
 
@@ -142,7 +154,7 @@
                     </div>
                     <hr>
                     @foreach ($post->comments as $comment)
-                    <h4 class="mr-3">{{ $comment->user_id }}</h4>
+                    <h4 class="mr-3">{{ $comment->user->name }}</h4>
                     <h5 class="ml-auto">{{ $comment->content }}</h5>
                     @endforeach
                 </form>

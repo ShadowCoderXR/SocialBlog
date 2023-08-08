@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-//tabla de administrador de todas las publicaciones
     <table>
         <thead>
             <tr>

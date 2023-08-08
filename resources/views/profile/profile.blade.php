@@ -37,7 +37,10 @@
                             @method('DELETE')
                             <button type="button" class="btn btn-outline-danger ms-1">Borrar cuenta</button>
                         </form> -->
-                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="d-grid gap-2 m-2">
+                                <a href="{{route('profile.edit.password', ['slug' => $user->slug])}}"><button class="btn btn-outline-warning">Cambiar contraseña</button></a>
+                            </div>
+                        <button type="button" class="btn btn-outline-danger m-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Borrar cuenta
                         </button>
                     </div>
@@ -47,41 +50,9 @@
     </div>
 
 
-    <!-- Modal para borrar cuenta -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Borrar Cuenta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
-                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                        </svg>
-                        <div>
-                            ¿Estas seguro de borrar tu cuenta?
-                            <br>
-                            Se eliminara de forma permanente.
-                        </div>
-                        <br>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form action="{{route('profile.destroy', ['id' => $user->id])}}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger">Estoy seguro</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
-
+    @if(Auth::id() == $user->id)
     <div class="col-lg-7">
         <div class="card mb-4">
             <div class="card-body">
@@ -102,7 +73,7 @@
                             <p class="mb-0">Descripción</p>
                         </div>
                         <div class="col-sm-9">
-                            <textarea class="form-control" id="description" name="description" value="{{ $user->description }}"></textarea>
+                            <textarea class="form-control" id="description" name="description" value="{{ $user->description }}">{{ $user->description }}</textarea>
                         </div>
                     </div>
                     <hr>
@@ -122,14 +93,8 @@
                         <div class="col-sm-3">
                             <p class="mb-0">Email: {{$user->email}}</p>
                         </div>
-                        <div class="col-sm-9">
-                            @if(Auth::id() == $user->id)
-                            <div class="d-grid gap-2">
-                                <a href="{{route('profile.edit.password', ['slug' => $user->slug])}}"><button class="btn btn-outline-warning">Cambiar contraseña</button></a>
-                            </div>
-                        </div>
                     </div>
-                    @endif
+                    
                     <hr>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-success">Guardar cambios</button>
@@ -138,107 +103,78 @@
             </div>
         </div>
     </div>
-
+    @endif
     <div class="row">
-        <section id="events" class="events">
-            <h1 class="text-center">Tus publicaciones</h1>
-            <hr>
-            <div class="container" data-aos="fade-up">
-                <div class="row">
-
-
-
-                    @php
-                    $colCount = 0;
-                    @endphp
-
-                    @foreach ($user->posts as $post)
-                    @if ($colCount == 0)
-                    <div class="col-md-6 custom-column">
+<section id="events" class="events">
+    <h1 class="text-center">Tus publicaciones</h1>
+    <hr>
+    <div class="container" data-aos="fade-up">
+        <div class="row justify-content-center"> <!-- Utilizamos 'justify-content-center' para centrar el contenido -->
+            @foreach ($user->posts as $post)
+            <div class="col-md-8 custom-column"> <!-- Aumentamos el tamaño de la columna a 'col-md-8' -->
+                <div class="card mb-4">
+                    <div class="card-img">
+                        @if ($post->image != null)
+                        <a href="{{route('post.show', $post->slug)}}"><img src="{{ asset('storage/images/posts/' . $post->image) }}" width="700" class="img-fluid"></a>
+                        @else
+                        Sin Imagen
                         @endif
-
-                        <div class="card mb-4">
-                            <div class="card-img">
-                                @if ($post->image != null)
-                                <a href="{{route('post.show', $post->slug)}}"><img src="{{ asset('storage/images/posts/' . $post->image) }}" width="700" class="img-fluid"></a>
-                                @else
-                                Sin Imagen
-                                @endif
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="{{route('post.show', $post->slug)}}">{{ $post->title }}</a></h5>
-                                <p class="fst-italic text-center">{{ $post->created_at }}</p>
-                                <p class="card-text">{{ $post->body }}</p>
-                                <div class="d-grid gap-2">
-                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                        Borrar publicación
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        @php
-                        $colCount++;
-                        @endphp
-
-
                     </div>
-                    @php
-                    $colCount = 0;
-                    @endphp
-
-                    @endforeach
-
-                    @if ($colCount != 0)
-
-                </div>
-                @endif
-
-            </div>
-
-        </section>
-    </div>
-
-
-    <!-- Modal para borrar publicación -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Borrar publicación</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
-                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                        </svg>
-                        <div>
-                            ¿Estas seguro de borrar tu publicación?
-                            <br>
-                            Se eliminara de forma permanente.
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{{route('post.show', $post->slug)}}">{{ $post->title }}</a></h5>
+                        <p class="fst-italic text-center">{{ $post->created_at }}</p>
+                        <p class="card-text">{{ $post->body }}</p>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Borrar publicación
+                            </button>
                         </div>
-                        <br>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form action="{{ route('post.destroy', ['id' => $post->id]) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger">Borrar</button>
-                    </form>
-                </div>
             </div>
+            @endforeach
         </div>
     </div>
-
-
-</div>
-
+</section>
 
 <div id="preloader"></div>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+                        <!-- Modal de borrar publicación -->
+
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Borrar publicación</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                        </svg>
+                                        <div>
+                                            ¿Estas seguro de borrar tu publicación?
+                                            <br>
+                                            Se eliminara de forma permanente.
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                @if($user->post != null)
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <form action="{{ route('post.destroy', ['id' => $post->id]) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger">Borrar</button>
+                                    </form>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
 
 
 <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>

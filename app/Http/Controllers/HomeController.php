@@ -40,13 +40,13 @@ class HomeController extends Controller
             ->with('user')
             ->where('status', 1)
             ->paginate($perPage);
-    
-        $ItemCount = $posts->lastPage() === $posts->currentPage()
-            ? $posts->total() % $perPage
+        
+        $itemCount = $posts->lastPage() === $posts->currentPage()
+            ? $posts->total() - ($perPage * ($posts->currentPage() - 1))
             : $perPage;
-
-            $halfItemCount = ceil($ItemCount / 2);
-    
+        
+        $halfItemCount = ceil($itemCount / 2);
+        
         return view('posts/postIndex', compact('posts', 'halfItemCount'));
     }
     

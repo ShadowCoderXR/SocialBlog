@@ -18,8 +18,8 @@ class CommentFactory extends Factory
     {
         return [
             'content' =>fake()->text(),
-            'post_id' =>fake()->numberBetween(1, 10),
-            'user_id' =>fake()->numberBetween(1, 10),
+            'post_id' =>fake()->numberBetween(1, 20),
+            'user_id' =>fake()->numberBetween(1, 5),
             'status' => 1,
         ];
     }

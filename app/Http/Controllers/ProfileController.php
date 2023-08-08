@@ -23,7 +23,9 @@ class ProfileController extends Controller
     
     public function show($slug)
     {
-        $user = User::where('slug', $slug)->where('status', 1)->firstOrFail();
+        $user = User::with(['posts'=> function ($query) {
+            $query->where('status', 1)->orderBy('created_at', 'desc')->paginate(10);
+        }])->where('slug', $slug)->firstOrFail();
         return view('profile/profile', compact('user'));
     }
 
@@ -73,6 +75,7 @@ class ProfileController extends Controller
         $user = User::find($id);
         $user->status = 0;
         $user->save();
+        
 
         // $img = $user->image;
         // Storage::delete('public/images/profiles/' . $img);

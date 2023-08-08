@@ -23,7 +23,7 @@ class PostFactory extends Factory
             'slug' => str::slug($title, '-'),
             'body' => fake()->paragraphs(5, true),
             'image' => "example.webp",
-            'user_id' => fake()->numberBetween(1, 10),
+            'user_id' => fake()->numberBetween(1, 5),
             'status' => true,
         ];
     }
