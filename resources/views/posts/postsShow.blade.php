@@ -144,16 +144,7 @@
                             <form class="mb-4" action="{{ route('comment.store',['id'=> $post->id])}}" method="POST">
                                 @csrf
                                 <div class="d-flex align-items-center">
-                                    @if($post->user->image != null)
-                                    <div class="rounded-circle-wrapper">
-                                        <img src="{{ asset('storage/images/profiles/' . $post->user->image) }}" alt="avatar" class="img-fluid rounded-circle-image">
-                                    </div>
-                                    @else
-                                    <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center" style="width: 75px; height: 75px;">
-                                        <span>Sin imagen</span>
-                                    </div>
-                                    @endif
-                                    <h6 class="ms-3">{{ Auth::user()->name }}</h6>
+                                    <h6 class="ms-3">{{ Auth::user()->name }}:</h6>
                                 </div>
                                 <div class="mt-3">
                                     <textarea class="form-control" id="content" name="content" rows="3"></textarea>
