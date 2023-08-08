@@ -69,3 +69,7 @@ Route::get('/status', function () {
 Route::get('/prueba', function(){
     return view('home');
 });
+
+Route::get('/prueba/post', function(){
+    return view('posts/postPrueba');
+});
