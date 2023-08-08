@@ -19,42 +19,66 @@
                             </div>    
                     </div>
                 </div>
-                <!-- Project One Row-->
-                @foreach ($posts as $post)
-                <div class="row gx-0 mb-2 mb-lg-0 justify-content-center">
-                    @if ($post->image != null)
-                    <div class="col-lg-6"><img class="img-fluid" src="{{ asset('storage/images/posts/' . $post->image) }}" alt="..." /></div>
-                    @else
-                     Sin Imagen
-                     @endif
-                     <div class="col-lg-6">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-left" style="padding: 20px;">
-                                <h4 class="text-white">{{ $post->user->name }}</h4>
-                                <h4 class="text-white">{{ $post->title }}</h4>
-                                <p class="mb-0 text-white-50">{{ $post->body }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-                @endforeach
-                <!-- Project Two Row-->
-                <div class="row gx-0 justify-content-center">
-                    <div class="col-lg-6"><img class="img-fluid" src="assets/img/demo-image-02.jpg" alt="..." /></div>
-                    <div class="col-lg-6 order-lg-first">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-right">
-                                    <h4 class="text-white">Mountains</h4>
-                                    <p class="mb-4 text-white-50">Another example of a project with its respective description. These sections work well responsively as well!</p>
+                @foreach ($posts as $key => $post)
+                    @if ($key % 2 == 0)
+                        <!-- Project One Row -->
+                        <div class="row gx-0 mb-2 mb-lg-0 justify-content-center">
+                            @if ($post->image != null)
+                                <a href="{{ route('post.show', $post->slug) }}" class="col-lg-6"><img class="img-fluid" src="{{ asset('storage/images/posts/' . $post->image) }}" alt="..." /></a>
+                            @else
+                                Sin Imagen
+                            @endif
+                            <div class="col-lg-6">
+                                <div class="bg-black text-center h-100 project">
+                                    <div class="d-flex h-100">
+                                        <div class="project-text w-100 my-auto text-center text-lg-left" style="padding: 20px;">
+                                            <h4 class="text-white">{{ $post->user->name }}</h4>
+                                            <h4>
+                                                <a href="{{ route('post.show', $post->slug) }}" class="link-light link-offset-2 link-underline link-underline-opacity-0 link-opacity-50-hover">
+                                                    {{ $post->title }}
+                                                </a>
+                                            </h4>
+                                            <p>
+                                                <a href="{{ route('post.show', $post->slug) }}" class="link-light link-offset-2 link-underline link-underline-opacity-0">
+                                                    {{ $post->body }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    @else
+                        <!-- Project Two Row -->
+                        <div class="row gx-0 justify-content-center">
+                            @if ($post->image != null)
+                            <a href="{{ route('post.show', $post->slug) }}" class="col-lg-6"><img class="img-fluid" src="{{ asset('storage/images/posts/' . $post->image) }}" alt="..." /></a>
+                            @else
+                                Sin Imagen
+                            @endif
+                            <div class="col-lg-6 order-lg-first">
+                                <div class="bg-black text-center h-100 project">
+                                    <div class="d-flex h-100">
+                                        <div class="project-text w-100 my-auto text-center text-lg-right">
+                                            <h4 class="text-white">{{ $post->user->name }}</h4>
+                                            <h4>
+                                                <a href="{{ route('post.show', $post->slug) }}" class="link-light link-offset-2 link-underline link-underline-opacity-0 link-opacity-50-hover">
+                                                    {{ $post->title }}
+                                                </a>
+                                            </h4>
+                                            <p>
+                                                <a href="{{ route('post.show', $post->slug) }}" class="link-light link-offset-2 link-underline link-underline-opacity-0">
+                                                    {{ $post->body }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-xl">
