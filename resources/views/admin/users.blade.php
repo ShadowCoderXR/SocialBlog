@@ -72,7 +72,8 @@
                                         <th>Rol</th>
                                         <th>Estado</th>
                                         <th>ver perfil</th>
-                                        <th>Desactivar</th>
+                                        <th>Desactivar/Activar
+                                        </th>
                                         <th>Eliminar</th>
                                     </tr>
                                 </thead>
@@ -118,7 +119,7 @@
                                             <form action="{{ route('admin.disable.user', ['id' => $user->id]) }}" method="post">
                                                 @csrf
                                                 @method('PUT')
-                                                <button type="submit" class="btn btn-warning">Desactivar</button>
+                                                <button type="submit" class="btn btn-warning">Alternar</button>
                                             </form>
                                         </td>
                                         <td>

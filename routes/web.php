@@ -65,11 +65,3 @@ Route::get('/acceso-no-autorizado', function () {
 Route::get('/status', function () {
     return view('error/status'); 
 })->name('status');
-
-Route::get('/prueba', function(){
-    return view('home');
-});
-
-Route::get('/prueba/post', function(){
-    return view('posts/postPrueba');
-});

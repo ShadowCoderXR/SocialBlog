@@ -17,11 +17,6 @@ class AdminController extends Controller
         $this->middleware('admin');
     }
 
-    public function index()
-    {
-        return view('admin/admin');
-    }
-
     public function users()
     {
         $users = User::with('role')->get();
