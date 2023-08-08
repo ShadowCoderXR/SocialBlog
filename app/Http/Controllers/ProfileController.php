@@ -76,6 +76,7 @@ class ProfileController extends Controller
         $user->status = 0;
         $user->save();
         
+        Auth::logout();
 
         // $img = $user->image;
         // Storage::delete('public/images/profiles/' . $img);
