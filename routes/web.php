@@ -20,7 +20,7 @@ use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name("welcome");
 
 Auth::routes(['verify' => true]);
 
@@ -59,11 +59,11 @@ Route::delete('/admin/comment/{id}', [AdminController::class, 'destroyComments']
 
 // RUTAS NEGADAS PARA USUARIOS SIN ADMI 
 Route::get('/acceso-no-autorizado', function () {
-    return "Acceso no autorizado. Debes ser un administrador para acceder.";
+    return view('error/access'); 
 })->name('acceso-no-autorizado');
 
 Route::get('/status', function () {
-    return "Tu cuenta esta desactivada. Contacta con el administrador.";
+    return view('error/status'); 
 })->name('status');
 
 Route::get('/prueba', function(){
