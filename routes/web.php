@@ -65,3 +65,7 @@ Route::get('/acceso-no-autorizado', function () {
 Route::get('/status', function () {
     return "Tu cuenta esta desactivada. Contacta con el administrador.";
 })->name('status');
+
+Route::get('/prueba', function(){
+    return view('home');
+});
