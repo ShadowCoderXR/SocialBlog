@@ -12,8 +12,8 @@
                 <div class="d-flex align-items-center mt-lg-5 mb-4">
                     <hr>
                     @if($post->user->image != null)
-                    <div class="rounded-circle overflow-hidden">
-                        <img src="{{ asset('storage/images/profiles/' . $post->user->image) }}" alt="avatar" class="img-fluid rounded-circle" width="150">
+                    <div class="rounded-circle-wrapper">
+                        <img src="{{ asset('storage/images/profiles/' . $post->user->image) }}" alt="avatar" class="img-fluid rounded-circle-image" width="75">
                     </div>
                     @else
                     <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center" width="100">
@@ -142,49 +142,51 @@
                         <div class="card-body">
                             <!-- Comment form-->
                             <form class="mb-4" action="{{ route('comment.store',['id'=> $post->id])}}" method="POST">
-                                @csrf
-                                <div class="d-flex align-items-center">
-                                    @if($post->user->image != null)
-                                    <div class="rounded-circle overflow-hidden">
-                                        <img src="{{ asset('storage/images/profiles/' . $post->user->image) }}" alt="avatar" class="img-fluid rounded-circle" width="75">
-                                    </div>
-                                    @else
-                                    <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center" width="100">
-                                        <span>Sin imagen</span>
-                                    </div>
-                                    @endif
-                                    <h6 >{{ Auth::user()->name }}</h6>
-                                </div>
-                                <div class="mt-3">
-                                    <textarea class="form-control" id="content" name="content" rows="3"></textarea>
-                                </div>
+    @csrf
+    <div class="d-flex align-items-center">
+        @if($post->user->image != null)
+        <div class="rounded-circle-wrapper">
+            <img src="{{ asset('storage/images/profiles/' . $post->user->image) }}" alt="avatar" class="img-fluid rounded-circle-image">
+        </div>
+        @else
+        <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center" style="width: 75px; height: 75px;">
+            <span>Sin imagen</span>
+        </div>
+        @endif
+        <h6 class="ms-3">{{ Auth::user()->name }}</h6>
+    </div>
+    <div class="mt-3">
+        <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+    </div>
 
-                                <div class="row justify-content-end">
-                                    <div class="col-auto mt-3">
-                                        <button type="submit" class="btn btn-outline-secondary justify-content-end">Comentar</button>
-                                    </div>
-                                </div>
+    <div class="row justify-content-end mt-3">
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-secondary">Comentar</button>
+        </div>
+    </div>
 
-                                @foreach ($post->comments as $comment)
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        @if($post->user->image != null)
-                                        <div class="rounded-circle overflow-hidden">
-                                            <img src="{{ asset('storage/images/profiles/' . $post->user->image) }}" alt="avatar" class="img-fluid rounded-circle" width="100">
-                                        </div>
-                                        @else
-                                        <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center" width="100">
-                                            <span>Sin imagen</span>
-                                        </div>
-                                        @endif
-                                    </div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">{{ $comment->user->name }}</div>
-                                        {{ $comment->content }}
-                                    </div>
-                                </div>
-                                @endforeach
-                            </form>
+    @foreach ($post->comments as $comment)
+    <div class="d-flex mt-3">
+        <div class="flex-shrink-0">
+            @if($comment->user->image != null)
+            <div class="rounded-circle-wrapper">
+                <img src="{{ asset('storage/images/profiles/' . $comment->user->image) }}" alt="avatar" class="img-fluid rounded-circle-image" width="50"> <!-- Ajusta el valor de width aquí -->
+            </div>
+            @else
+            <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center" style="width: 75px; height: 75px;">
+                <span>Sin imagen</span>
+            </div>
+            @endif
+        </div>
+        <div class="ms-3">
+            <div class="fw-bold">{{ $comment->user->name }}</div>
+            {{ $comment->content }}
+        </div>
+    </div>
+    @endforeach
+</form>
+
+
                         </div>
                     </div>
                 </section>

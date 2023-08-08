@@ -1,0 +1,13 @@
+.rounded-circle-wrapper {
+    display: inline-block; /* Asegura que el contenedor tenga el tamaño de la imagen */
+    width: 75px; /* Ajusta esto según tus necesidades */
+    height: 75px; /* Ajusta esto según tus necesidades */
+    overflow: hidden;
+    border-radius: 50%; /* Hace que el contenedor sea circular */
+}
+
+.rounded-circle-image {
+    width: 100%; /* Asegura que la imagen ocupe todo el espacio del contenedor */
+    height: 100%; /* Asegura que la imagen ocupe todo el espacio del contenedor */
+    object-fit: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+}
