@@ -1,52 +1,66 @@
 @extends('layouts.app')
 
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<div>
-        <h2>Cambiar contraseña</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Cambiar contraseña') }}</div>
 
-        @if (session('success'))
-            <div>
-                {{ session('success') }}
+                <div class="card-body">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+
+                        <div class="row mb-3">
+                            <label for="old_password" class="col-md-4 col-form-label text-md-end">Contraseña actual</label>
+
+                            <div class="col-md-6">
+                                <input id="old_password" type="password" name="old_password" required autofocus class="form-control">
+                                @error('old_password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-end">Nueva contraseña</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" name="password" required autofocus class="form-control">
+                                @error('old_password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password_confirmation" class="col-md-4 col-form-label text-md-end">Confirmar contraseña</label>
+
+                            <div class="col-md-6">
+                                <input id="password_confirmation" type="password" name="password_confirmation" required autofocus class="form-control">
+                                @error('old_password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Cambiar Contraseña') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        @endif
-
-        <form method="POST" action="{{ route('profile.update.password') }}">
-            @csrf
-
-            <div>
-                <label for="old_password">Contraseña actual</label>
-                <input id="old_password" type="password" name="old_password" required autofocus>
-                @error('old_password')
-                    <div>{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div>
-                <label for="password">Nueva contraseña</label>
-                <input id="password" type="password" name="password" required>
-                @error('password')
-                    <div>{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div>
-                <label for="password_confirmation">Confirmar nueva contraseña</label>
-                <input id="password_confirmation" type="password" name="password_confirmation" required>
-            </div>
-
-            <div>
-                <button type="submit">Cambiar contraseña</button>
-            </div>
-        </form>
+        </div>
     </div>
-</body>
-</html>
+</div>
 @endsection
