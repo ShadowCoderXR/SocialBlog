@@ -21,8 +21,8 @@
                     <h1>Tú perfil</h1>
                     <hr>
                     @if($user->image != null)
-                    <div class="rounded-circle-wrapper">
-                        <img src="{{ asset('storage/images/profiles/' . $user->image) }}" alt="avatar" class="img-fluid rounded-circle-image" width="200">
+                    <div class="rounded-circle">
+                        <img class="rounded-circle" src="{{ asset('storage/images/profiles/' . $user->image) }}" alt="avatar" class="img-fluid rounded-circle-image" width="200">
                     </div>
                     @else
                     <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center" style="width: 75px; height: 75px;">
